@@ -12,20 +12,13 @@
     <thead>
     <tr>
         <th>name</th>
-        <th>products</th>
-
         <th>Action</th>
     </tr>
     </thead>
     <tbody>
-        <tr th:each="entity : ${list}">
-                                    <td th:text=${entity.name}></td>
-                                            <td>
-                    <ul>
-                        <li th:each="products_item : ${entity.products}" th:text="${products_item}"></li>
-                    </ul>
-                </td>
-                
+    <tr th:each="entity : ${list}">
+        <td th:text=${entity.name}></td>
+
         <td>
             <a th:href="@{/category/{id}(id=${entity.id})}">See detail</a>
             <a th:href="@{/category/edit/{id}(id=${entity.id})}">Edit</a>

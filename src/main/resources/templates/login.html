@@ -6,26 +6,13 @@
 </head>
 <body>
 
-<div th:replace="~{/commons/commons :: navbar}"></div>
-
-
-<!-- Page Login Start -->
-<div class="container-fluid page-header wow fadeIn mb-5" data-wow-delay="0.1s">
-  <div class="container">
-    <h1 class="display-3 mb-3 animated slideInDown">Login</h1>
-    <nav aria-label="breadcrumb animated slideInDown">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a class="text-body" href="#">Home</a></li>
-        <li class="breadcrumb-item text-dark active" aria-current="page">Login</li>
-      </ol>
-    </nav>
-  </div>
-</div>
-<!-- Page Login End -->
+  <div th:replace="~{/commons/commons :: navbar}"></div>
+  <div th:replace="~{/commons/page-header :: page-header(headerText='Login')}"></div>
 
 
 <div class="container">
   <div class="row">
+    <h3 th:if="${success != null}" th:text="${success}" class="text-center"></h3>
 
     <h3 th:if="${#request.getParameter('error') != null and #request.getParameter('error') == 'true'}" class="text-center"></h3>
 

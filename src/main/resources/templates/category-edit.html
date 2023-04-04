@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Category</title>
+    <title>Create/Edit Category</title>
+    <div th:replace="~{/commons/commons :: head}"></div>
 </head>
 <body>
-<h1>Edit Category</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<form th:action="@{/category}" th:object="${entity}" method="post">
 
-    <p>
-        <label for="name">name:</label>
-            <input type="text" th:field="*{name}" id="name" required>
-        </p>
-    <p>
-        <label for="products">products:</label>
-            <select multiple="multiple" th:field="*{products}" id="products">
-            <option th:each="products_item : ${products_list}" th:value="${products_item}" th:text="${products_item}"></option>
-        </select>
-        </p>
+<div th:replace="~{/commons/commons :: navbar}"></div>
+<div th:replace="~{/commons/page-header :: page-header(headerText='Category create/edit')}"></div>
 
-    <p>
-        <input type="text" th:field="*{id}" id="id">
-        <input type="submit" value="Save">
-        <a th:href="@{/category}">Cancel</a>
-    </p>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+            <h1 th:text="${entity.id == null ? 'Create Category' : 'Edit Category'}">Create/Edit Category</h1>
+            <h3 th:if="${message != null}" th:text="${message}">Message</h3>
+            <form th:action="@{/category}" th:object="${entity}" method="post">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name" required>
+                            <label for="name">Name</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" th:field="*{id}" id="id" hidden>
+                        <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Save</button>
+                        <a class="btn btn-secondary rounded-pill py-3 px-5" th:href="@{/category}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<div th:replace="~{/commons/commons :: footer}"></div>
 </body>
 </html>

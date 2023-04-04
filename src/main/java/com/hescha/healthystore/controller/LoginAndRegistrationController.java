@@ -25,7 +25,6 @@ public class LoginAndRegistrationController {
                 ? "Success"
                 : "Registration failed. Try again later";
         model.addAttribute("success", response);
-        return "registration";
-
+        return "login";
     }
 }

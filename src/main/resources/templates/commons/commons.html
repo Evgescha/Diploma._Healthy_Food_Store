@@ -68,12 +68,16 @@
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
                     <a href="/" class="nav-item nav-link">Home</a>
                     <a href="/about" class="nav-item nav-link">About Us</a>
-                    <a href="/product" class="nav-item nav-link">Products</a>
                     <a href="/feature" class="nav-item nav-link">Our Features</a>
                     <a href="/testimonial" class="nav-item nav-link">Testimonial</a>
-                    <a href="/contact" class="nav-item nav-link">Contact Us</a>
+                    <a href="/contact" class="nav-item nav-link mr-5">Contact Us</a>
+                    <a href="/product" class="nav-item nav-link">Products</a>
+
+                    <a href="/login" class="nav-item nav-link" th:if="${#request.userPrincipal == null}">Sign in</a>
+
+                    <a href="/logout" class="nav-item nav-link" th:if="${#request.userPrincipal != null}">Log out</a>
                 </div>
-                <div class="d-none d-lg-flex ms-2">
+                <div class="d-none d-lg-flex ms-2" th:if="${#request.userPrincipal != null}">
                     <a class="btn-sm-square bg-white rounded-circle ms-3" href="/profile">
                         <small class="fa fa-user text-body"></small>
                     </a>
