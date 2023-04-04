@@ -71,6 +71,5 @@ public class ProductService extends CrudService<Product> {
         read.setImage(entity.getImage());
         read.setPrice(entity.getPrice());
         read.setCategory(entity.getCategory());
-        read.setComments(entity.getComments());
     }
 }

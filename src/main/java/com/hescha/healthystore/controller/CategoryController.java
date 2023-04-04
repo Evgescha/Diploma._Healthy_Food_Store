@@ -75,7 +75,7 @@ public class CategoryController {
             ra.addFlashAttribute(MESSAGE, "Removing is successful");
         } catch (Exception e) {
             e.printStackTrace();
-            ra.addFlashAttribute(MESSAGE, "Removing failed");
+            ra.addFlashAttribute(MESSAGE, "You cannot remove category if it have at least 1 product");
         }
         return REDIRECT_TO_ALL_ITEMS;
     }

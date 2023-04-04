@@ -15,6 +15,7 @@
     <div class="container">
         <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
             <h1 class="display-5 mb-3">List of Category</h1>
+            <h3 th:if="${message != null}" th:text="${message}" class="text-center"></h3>
         </div>
         <a class="btn btn-primary rounded-pill py-3 px-5 mb-5" th:href="@{/category/edit}">Create new Category</a>
         <div class="table-responsive">
