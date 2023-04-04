@@ -17,13 +17,16 @@ import java.util.List;
 @Service
 public class UserService extends CrudService<User> implements org.springframework.security.core.userdetails.UserDetailsService {
     private final UserRepository repository;
+    private final RoleService roleService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository,
+                       RoleService roleService) {
         super(repository);
         this.repository = repository;
+        this.roleService = roleService;
     }
 
     @Override
@@ -117,5 +120,22 @@ public class UserService extends CrudService<User> implements org.springframewor
 
     public List<User> findByOrdersContains(Order orders) {
         return repository.findByOrdersContains(orders);
+    }
+
+    public boolean registerNew(User entity) {
+
+        entity.getRoles().add(roleService.read(1));
+        log.info("registerNew {}", entity);
+        if (repository.findByUsername(entity.getUsername()) != null) {
+            return false;
+        }
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        try {
+            create(entity);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

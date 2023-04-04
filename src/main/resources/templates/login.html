@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login</title>
+  <div th:replace="~{/commons/commons :: head}"></div>
+</head>
+<body>
+
+<div th:replace="~{/commons/commons :: navbar}"></div>
+
+
+<!-- Page Login Start -->
+<div class="container-fluid page-header wow fadeIn mb-5" data-wow-delay="0.1s">
+  <div class="container">
+    <h1 class="display-3 mb-3 animated slideInDown">Login</h1>
+    <nav aria-label="breadcrumb animated slideInDown">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a class="text-body" href="#">Home</a></li>
+        <li class="breadcrumb-item text-dark active" aria-current="page">Login</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<!-- Page Login End -->
+
+
+<div class="container">
+  <div class="row">
+
+    <h3 th:if="${#request.getParameter('error') != null and #request.getParameter('error') == 'true'}" class="text-center"></h3>
+
+    <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+      <h2>Registration</h2>
+      <form method="post" action="/register">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="username" placeholder="Username" name="username">
+              <label for="username">Username</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating">
+              <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+              <label for="password">Password</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="firstname" placeholder="Firstname" name="firstname">
+              <label for="firstname">Firstname</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="lastname" placeholder="Lastname" name="lastname">
+              <label for="lastname">Lastname</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-floating">
+              <input type="email" class="form-control" id="email" placeholder="Email" name="email">
+              <label for="email">Email</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Register</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Вход -->
+    <div class="col-lg-6 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+      <h2>Login</h2>
+      <form method="post" action="/login">
+        <div class="row g-3">
+          <div class="col-12">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="username">
+              <label for="loginUsername">Username</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-floating">
+              <input type="password" class="form-control" id="loginPassword" placeholder="Password" name="password">
+              <label for="loginPassword">Password</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Login</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div th:replace="~{/commons/commons :: footer}"></div>
+</body>
+</html>

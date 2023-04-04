@@ -5,13 +5,8 @@ import com.hescha.healthystore.service.CategoryService;
 import com.hescha.healthystore.service.CommentService;
 import com.hescha.healthystore.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
 
@@ -35,6 +30,12 @@ public class ProductController {
     @GetMapping
     public String readAll(Model model) {
         model.addAttribute("list", service.readAll());
+        return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
+    }
+
+    @GetMapping("/search")
+    public String search(Model model, @RequestParam String search) {
+        model.addAttribute("list", service.findByNameContains(search));
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
