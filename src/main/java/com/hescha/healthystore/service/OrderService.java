@@ -32,10 +32,6 @@ public class OrderService extends CrudService<Order> {
         return repository.findByCreated(created);
     }
 
-    public Order findByUpdated(LocalDateTime updated) {
-        return repository.findByUpdated(updated);
-    }
-
     public Order findByStatus(OrderStatus status) {
         return repository.findByStatus(status);
     }
@@ -52,10 +48,7 @@ public class OrderService extends CrudService<Order> {
     }
 
     private void updateFields(Order entity, Order read) {
-        read.setOwner(entity.getOwner());
         read.setOrderitems(entity.getOrderitems());
-        read.setCreated(entity.getCreated());
-        read.setUpdated(entity.getUpdated());
         read.setStatus(entity.getStatus());
     }
 }

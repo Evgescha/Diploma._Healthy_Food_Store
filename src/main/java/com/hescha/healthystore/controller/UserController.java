@@ -5,6 +5,7 @@ import com.hescha.healthystore.service.OrderService;
 import com.hescha.healthystore.service.RoleService;
 import com.hescha.healthystore.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +32,7 @@ public class UserController {
     private final UserService service;
     private final RoleService roleService;
     private final OrderService orderService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public String readAll(Model model) {
@@ -40,7 +42,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public String read(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("entity", service.read(id));
+        model.addAttribute("user", service.read(id));
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 
@@ -51,15 +53,13 @@ public class UserController {
         } else {
             model.addAttribute("entity", service.read(id));
         }
-
-        model.addAttribute("role_list", roleService.readAll());
-        model.addAttribute("order_list", orderService.readAll());
-
+        model.addAttribute("allRoles", roleService.readAll());
         return THYMELEAF_TEMPLATE_EDIT_PAGE;
     }
 
     @PostMapping
     public String save(@ModelAttribute User entity, RedirectAttributes ra) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         if (entity.getId() == null) {
             try {
                 User createdEntity = service.create(entity);

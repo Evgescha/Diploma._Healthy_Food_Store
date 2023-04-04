@@ -22,4 +22,9 @@ public class User extends AbstractEntity {
     private List<Role> roles = new ArrayList();
     @OneToMany
     private List<Order> orders = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }

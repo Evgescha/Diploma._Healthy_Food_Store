@@ -1,61 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit User</title>
+    <title>Create/Edit User</title>
+    <div th:replace="~{/commons/commons :: head}"></div>
 </head>
 <body>
-<h1>Edit User</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<form th:action="@{/user}" th:object="${entity}" method="post">
+<div th:replace="~{/commons/commons :: navbar}"></div>
+<div th:replace="~{/commons/page-header :: page-header(headerText='User create/edit')}"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-12 wow fadeInUp  mx-auto" data-wow-delay="0.5s">
+            <h1 th:text="${entity.id == null ? 'Create User' : 'Edit User'}">Create/Edit User</h1>
+            <h3 th:if="${message != null}" th:text="${message}">Message</h3>
+            <form th:action="@{/user}" th:object="${entity}" method="post">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" th:field="*{username}" class="form-control" id="username" placeholder="Username" required>
+                            <label for="username">Username</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" th:field="*{firstname}" class="form-control" id="firstname" placeholder="Firstname" required>
+                            <label for="firstname">Firstname</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" th:field="*{lastname}" class="form-control" id="lastname" placeholder="Lastname" required>
+                            <label for="lastname">Lastname</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email" required>
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" th:field="*{image}" class="form-control" id="image" placeholder="Image URL">
+                            <label for="image">Image URL</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" th:field="*{address}" class="form-control" id="address" placeholder="Address">
+                            <label for="address">Address</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <select th:field="*{roles}" class="form-select" id="roles" multiple style="min-height: 150px">
+                                <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.role}"></option>
+                            </select>
+                            <label for="roles">Roles</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" th:field="*{id}" id="id" hidden>
+                        <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Save</button>
+                        <a class="btn btn-secondary rounded-pill py-3 px-5" th:href="@{/user}">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <p>
-        <label for="username">username:</label>
-            <input type="text" th:field="*{username}" id="username" required>
-        </p>
-    <p>
-        <label for="password">password:</label>
-            <input type="text" th:field="*{password}" id="password" required>
-        </p>
-    <p>
-        <label for="firstname">firstname:</label>
-            <input type="text" th:field="*{firstname}" id="firstname" required>
-        </p>
-    <p>
-        <label for="lastname">lastname:</label>
-            <input type="text" th:field="*{lastname}" id="lastname" required>
-        </p>
-    <p>
-        <label for="email">email:</label>
-            <input type="text" th:field="*{email}" id="email" required>
-        </p>
-    <p>
-        <label for="image">image:</label>
-            <input type="text" th:field="*{image}" id="image" required>
-        </p>
-    <p>
-        <label for="address">address:</label>
-            <input type="text" th:field="*{address}" id="address" required>
-        </p>
-    <p>
-        <label for="roles">roles:</label>
-            <select multiple="multiple" th:field="*{roles}" id="roles">
-            <option th:each="roles_item : ${roles_list}" th:value="${roles_item}" th:text="${roles_item}"></option>
-        </select>
-        </p>
-    <p>
-        <label for="orders">orders:</label>
-            <select multiple="multiple" th:field="*{orders}" id="orders">
-            <option th:each="orders_item : ${orders_list}" th:value="${orders_item}" th:text="${orders_item}"></option>
-        </select>
-        </p>
-
-    <p>
-        <input type="text" th:field="*{id}" id="id">
-        <input type="submit" value="Save">
-        <a th:href="@{/user}">Cancel</a>
-    </p>
-</form>
-
+</div>
+<div th:replace="~{/commons/commons :: footer}"></div>
 </body>
 </html>

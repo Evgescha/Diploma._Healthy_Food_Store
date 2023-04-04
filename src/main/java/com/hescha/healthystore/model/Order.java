@@ -18,7 +18,6 @@ public class Order extends AbstractEntity{
     private User owner;
     @OneToMany
     private List<OrderItem> orderitems = new ArrayList<>();
-    private LocalDateTime created;
-    private LocalDateTime updated;
+    private LocalDateTime created = LocalDateTime.now();
     private OrderStatus status = OrderStatus.CREATED;
 }

@@ -11,26 +11,23 @@
 
     <p>
         <label for="owner">owner:</label>
-            <input type="text" th:field="*{owner}" id="owner" required>
-        </p>
+        <input type="text" th:field="*{owner}" id="owner" required>
+    </p>
     <p>
         <label for="orderitems">orderitems:</label>
-            <select multiple="multiple" th:field="*{orderitems}" id="orderitems">
-            <option th:each="orderitems_item : ${orderitems_list}" th:value="${orderitems_item}" th:text="${orderitems_item}"></option>
+        <select multiple="multiple" th:field="*{orderitems}" id="orderitems">
+            <option th:each="orderitems_item : ${orderitems_list}" th:value="${orderitems_item}"
+                    th:text="${orderitems_item}"></option>
         </select>
-        </p>
+    </p>
     <p>
         <label for="created">created:</label>
-            <input type="text" th:field="*{created}" id="created" required>
-        </p>
-    <p>
-        <label for="updated">updated:</label>
-            <input type="text" th:field="*{updated}" id="updated" required>
-        </p>
+        <input type="text" th:field="*{created}" id="created" required>
+    </p>
     <p>
         <label for="status">status:</label>
-            <input type="text" th:field="*{status}" id="status" required>
-        </p>
+        <input type="text" th:field="*{status}" id="status" required>
+    </p>
 
     <p>
         <input type="text" th:field="*{id}" id="id">

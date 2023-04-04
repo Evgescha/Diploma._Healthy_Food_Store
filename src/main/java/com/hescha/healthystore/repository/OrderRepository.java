@@ -18,7 +18,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Order findByCreated(LocalDateTime created);
 
-    Order findByUpdated(LocalDateTime updated);
-
     Order findByStatus(OrderStatus status);
 }

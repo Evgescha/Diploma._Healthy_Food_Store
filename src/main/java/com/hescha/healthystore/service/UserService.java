@@ -59,7 +59,6 @@ public class UserService extends CrudService<User> implements org.springframewor
         read.setImage(entity.getImage());
         read.setAddress(entity.getAddress());
         read.setRoles(entity.getRoles());
-        read.setOrders(entity.getOrders());
     }
 
     public User findByUsername(String username) {
