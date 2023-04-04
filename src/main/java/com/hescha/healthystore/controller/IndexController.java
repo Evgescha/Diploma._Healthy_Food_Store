@@ -11,4 +11,29 @@ public class IndexController {
     public String getPage() {
         return "index";
     }
+
+    @GetMapping("/about")
+    public String getPageabout() {
+        return "about";
+    }
+
+    @GetMapping("/404")
+    public String getPage404() {
+        return "404";
+    }
+
+    @GetMapping("/contact")
+    public String getPagecontact() {
+        return "contact";
+    }
+
+    @GetMapping("/feature")
+    public String getPagefeature() {
+        return "feature";
+    }
+
+    @GetMapping("/testimonial")
+    public String getPagetestimonial() {
+        return "testimonial";
+    }
 }
