@@ -12,38 +12,30 @@
     <thead>
     <tr>
         <th>username</th>
-        <th>password</th>
         <th>firstname</th>
         <th>lastname</th>
         <th>email</th>
         <th>image</th>
         <th>address</th>
         <th>roles</th>
-        <th>orders</th>
 
         <th>Action</th>
     </tr>
     </thead>
     <tbody>
-        <tr th:each="entity : ${list}">
-                                    <td th:text=${entity.username}></td>
-                                            <td th:text=${entity.password}></td>
-                                            <td th:text=${entity.firstname}></td>
-                                            <td th:text=${entity.lastname}></td>
-                                            <td th:text=${entity.email}></td>
-                                            <td th:text=${entity.image}></td>
-                                            <td th:text=${entity.address}></td>
-                                            <td>
-                    <ul>
-                        <li th:each="roles_item : ${entity.roles}" th:text="${roles_item}"></li>
-                    </ul>
-                </td>
-                                            <td>
-                    <ul>
-                        <li th:each="orders_item : ${entity.orders}" th:text="${orders_item}"></li>
-                    </ul>
-                </td>
-                
+    <tr th:each="entity : ${list}">
+        <td th:text=${entity.username}></td>
+        <td th:text=${entity.firstname}></td>
+        <td th:text=${entity.lastname}></td>
+        <td th:text=${entity.email}></td>
+        <td th:text=${entity.image}></td>
+        <td th:text=${entity.address}></td>
+        <td>
+            <ul>
+                <li th:each="roles_item : ${entity.roles}" th:text="${roles_item}"></li>
+            </ul>
+        </td>
+
         <td>
             <a th:href="@{/user/{id}(id=${entity.id})}">See detail</a>
             <a th:href="@{/user/edit/{id}(id=${entity.id})}">Edit</a>

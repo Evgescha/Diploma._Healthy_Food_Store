@@ -12,10 +12,13 @@ import java.util.List;
 public class ProductService extends CrudService<Product> {
 
     private final ProductRepository repository;
+    private final CommentService commentService;
 
-    public ProductService(ProductRepository repository) {
+    public ProductService(ProductRepository repository,
+                          CommentService commentService) {
         super(repository);
         this.repository = repository;
+        this.commentService = commentService;
     }
 
     public List<Product> findByName(String name) {
@@ -46,7 +49,7 @@ public class ProductService extends CrudService<Product> {
         return repository.findByPrice(price);
     }
 
-    public Product findByCategory(Category category) {
+    public List<Product> findByCategory(Category category) {
         return repository.findByCategory(category);
     }
 
@@ -71,5 +74,23 @@ public class ProductService extends CrudService<Product> {
         read.setImage(entity.getImage());
         read.setPrice(entity.getPrice());
         read.setCategory(entity.getCategory());
+    }
+
+
+    @Override
+    public void delete(long id) {
+        Product read = read(id);
+        read.setDeleted(true);
+        update(read);
+    }
+
+    public void delete(Product entity) {
+        for (Comment comment : entity.getComments()) {
+            entity.getComments().remove(comment);
+            comment.setOwner(null);
+            comment.setProduct(null);
+        }
+        entity.getComments().forEach(commentService::delete);
+        repository.delete(entity);
     }
 }

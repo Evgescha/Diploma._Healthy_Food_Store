@@ -1,6 +1,7 @@
 package com.hescha.healthystore.controller;
 
 import com.hescha.healthystore.model.Category;
+import com.hescha.healthystore.model.Product;
 import com.hescha.healthystore.service.CategoryService;
 import com.hescha.healthystore.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -71,8 +75,18 @@ public class CategoryController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
         try {
-            service.delete(id);
-            ra.addFlashAttribute(MESSAGE, "Removing is successful");
+            Category category = service.read(id);
+            List<Product> byCategory = productService.findByCategory(category);
+            List<Product> deletedProduct = byCategory.stream()
+                    .filter(Product::getDeleted)
+                    .collect(Collectors.toList());
+            if (byCategory.size() == deletedProduct.size()) {
+                byCategory.forEach(productService::delete);
+                service.delete(id);
+                ra.addFlashAttribute(MESSAGE, "Removing is successful");
+            } else {
+                throw new RuntimeException();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             ra.addFlashAttribute(MESSAGE, "You cannot remove category if it have at least 1 product");

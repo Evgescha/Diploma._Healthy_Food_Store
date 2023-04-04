@@ -29,7 +29,7 @@
 <!-- Product Details End -->
 
 <!-- Add Comment Start -->
-<div class="container-xxl py-6">
+<div class="container-xxl py-6" th:if="${entity.deleted == false or #request.userPrincipal == null}">
     <div class="container">
         <h3 th:if="${success != null}" th:text="${success}" class="text-center"></h3>
         <h3>Add a Comment</h3>
