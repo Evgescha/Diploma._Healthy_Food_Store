@@ -62,8 +62,8 @@ public class UserService extends CrudService<User> implements org.springframewor
         read.setOrders(entity.getOrders());
     }
 
-    public List<User> findByUsernameContains(String username) {
-        return repository.findByUsernameContains(username);
+    public User findByUsername(String username) {
+        return repository.findByUsername(username);
     }
 
     public List<User> findByPassword(String password) {

@@ -1,47 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Product</title>
+    <title>Create/Edit Product</title>
+    <div th:replace="~{/commons/commons :: head}"></div>
 </head>
+
 <body>
-<h1>Edit Product</h1>
-<h3 th:if="${message != null}" th:text="${message}">Message</h3>
-<form th:action="@{/product}" th:object="${entity}" method="post">
+<div th:replace="~{/commons/commons :: navbar}"></div>
+<div th:replace="~{/commons/page-header :: page-header(headerText='Create/Edit Product')}"></div>
 
-    <p>
-        <label for="name">name:</label>
-            <input type="text" th:field="*{name}" id="name" required>
-        </p>
-    <p>
-        <label for="description">description:</label>
-            <input type="text" th:field="*{description}" id="description" required>
-        </p>
-    <p>
-        <label for="image">image:</label>
-            <input type="text" th:field="*{image}" id="image" required>
-        </p>
-    <p>
-        <label for="price">price:</label>
-            <input type="text" th:field="*{price}" id="price" required>
-        </p>
-    <p>
-        <label for="category">category:</label>
-            <input type="text" th:field="*{category}" id="category" required>
-        </p>
-    <p>
-        <label for="comments">comments:</label>
-            <select multiple="multiple" th:field="*{comments}" id="comments">
-            <option th:each="comments_item : ${comments_list}" th:value="${comments_item}" th:text="${comments_item}"></option>
-        </select>
-        </p>
+<!-- Create/Edit Product Start -->
+<div class="container-xxl py-6">
+    <div class="container">
+        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+            <h1 class="display-5 mb-3">Create/Edit Product</h1>
+        </div>
+        <form th:action="@{/product}" th:object="${entity}" method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Product Name" required>
+                        <label for="name">Product Name</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" th:field="*{image}" id="image" placeholder="Image URL">
+                        <label for="image">Image URL</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input type="number" step="0.01" class="form-control" th:field="*{price}" id="price" placeholder="Price" required>
+                        <label for="price">Price</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <select class="form-select" th:field="*{category}" id="category" required>
+                            <option value="" disabled selected>Select Category</option>
+                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                        </select>
+                        <label for="category">Category</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-floating">
+                        <textarea class="form-control" th:field="*{description}" id="description" placeholder="Product Description" style="height: 200px" required></textarea>
+                        <label for="description">Product Description</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <input type="text" th:field="*{id}" id="id" hidden>
+                    <button class="btn btn-primary rounded-pill py-3 px-5" type="submit">Save</button>
+                    <a class="btn btn-secondary rounded-pill py-3 px-5" th:href="@{/product}">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Create/Edit Product End -->
 
-    <p>
-        <input type="text" th:field="*{id}" id="id">
-        <input type="submit" value="Save">
-        <a th:href="@{/product}">Cancel</a>
-    </p>
-</form>
-
+<div th:replace="~{/commons/commons :: footer}"></div>
 </body>
 </html>

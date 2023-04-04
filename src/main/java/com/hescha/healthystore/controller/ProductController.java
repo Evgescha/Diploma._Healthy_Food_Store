@@ -52,10 +52,7 @@ public class ProductController {
         } else {
             model.addAttribute("entity", service.read(id));
         }
-
-        model.addAttribute("category_list", categoryService.readAll());
-        model.addAttribute("comment_list", commentService.readAll());
-
+        model.addAttribute("categories", categoryService.readAll());
         return THYMELEAF_TEMPLATE_EDIT_PAGE;
     }
 
