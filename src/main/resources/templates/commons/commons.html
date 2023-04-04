@@ -66,15 +66,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="/" class="nav-item nav-link">Home</a>
+                    <a href="/" class="nav-item nav-link" >Home</a>
                     <a href="/about" class="nav-item nav-link">About Us</a>
                     <a href="/feature" class="nav-item nav-link">Our Features</a>
                     <a href="/testimonial" class="nav-item nav-link">Testimonial</a>
                     <a href="/contact" class="nav-item nav-link mr-5">Contact Us</a>
                     <a href="/product" class="nav-item nav-link">Products</a>
 
-                    <a href="/login" class="nav-item nav-link" th:if="${#request.userPrincipal == null}">Sign in</a>
+                    <a  th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('MANAGER') }" href="/category" class="nav-item nav-link">Category</a>
+                    <a  th:if="${#request.userPrincipal != null}" href="/order" class="nav-item nav-link">Orders</a>
+                    <a  th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('MANAGER')}" href="/user" class="nav-item nav-link">Users</a>
 
+                    <a href="/login" class="nav-item nav-link" th:if="${#request.userPrincipal == null}">Sign in</a>
                     <a href="/logout" class="nav-item nav-link" th:if="${#request.userPrincipal != null}">Log out</a>
                 </div>
                 <div class="d-none d-lg-flex ms-2" th:if="${#request.userPrincipal != null}">
