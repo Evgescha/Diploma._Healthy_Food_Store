@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @Table(name = "myUser")
@@ -28,15 +29,19 @@ public class User extends AbstractEntity {
         return username;
     }
 
-    public boolean isManager(){
+    public boolean isManager() {
         return roles.stream().anyMatch(role -> role.getRole().contains("MANAGER"));
     }
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return roles.stream().anyMatch(role -> role.getRole().contains("ADMIN"));
     }
 
-    public boolean isManagerOrAdmin(){
+    public boolean isManagerOrAdmin() {
         return isAdmin() || isManager();
+    }
+
+    public List<Order> getActiveOrders() {
+        return orders.stream().filter(order -> order.getStatus() == OrderStatus.CREATED).collect(Collectors.toList());
     }
 }

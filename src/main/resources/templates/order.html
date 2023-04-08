@@ -18,7 +18,57 @@
             <h3 th:if="${message != null}" th:text="${message}" class="text-center"></h3>
         </div>
 
+
+
+        <div class="row" th:if="${user.isManagerOrAdmin() != true}">
+            <h2 class="display-5 mb-3">My Order</h2>
+                <div class="tab-content" >
+                    <div class="tab-pane fade active show">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Created</th>
+                                <th>Status</th>
+                                <th>Order Items</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${user.getActiveOrders()}">
+                                <td th:text="${order.id}"></td>
+                                <td th:text="${order.created}"></td>
+                                <td th:text="${order.status}"></td>
+                                <td>
+                                    <ul>
+                                        <li th:each="item : ${order.orderitems}">
+                                            <span th:text="${item.product.name}"></span> x <span th:text="${item.count}"></span>
+                                            <span> = </span>
+                                            <span th:text="${item.product.price * item.count}">Partial cost</span>
+                                            <a class="btn btn-danger btn-sm" th:href="@{/order/{id}/deleteOrderItem/{itemId}(id=${order.id}, itemId=${item.id})}">Delete</a>
+                                        </li>
+                                        <li>
+                                            <span colspan="3">Total cost:</span>
+                                            <span th:text="${order.getPrice()}"></span>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" th:href="@{/order/{id}/changeStatus?status=IN_PROGRES(id=${order.id})}">Apply Order</a>
+                                    <a class="btn btn-danger" th:href="@{/order/{id}/delete(id=${order.id})}">Delete Order</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="row" th:if="${#request.isUserInRole('ADMIN') or (user.isManagerOrAdmin() == true)}">
+            <h2 class="display-5 mb-3">All Orders</h2>
             <div class="col-12">
                 <ul class="nav nav-pills mb-3" id="ordersTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -68,7 +118,11 @@
                                         </li>
                                     </ul>
                                 </td>
-                                <td>
+                                <td style="display: flex">
+                                    <a class="btn btn-primary" th:href="@{/order/{id}/changeStatus?status=CREATED(id=${order.id})}">Set status CREATED</a>
+                                    <a class="btn btn-primary" th:href="@{/order/{id}/changeStatus?status=IN_PROGRES(id=${order.id})}">Set status IN_PROGRES</a>
+                                    <a class="btn btn-primary" th:href="@{/order/{id}/changeStatus?status=DONE(id=${order.id})}">Set status DONE</a>
+                                    <a class="btn btn-primary" th:href="@{/order/{id}/changeStatus?status=CLOSED(id=${order.id})}">Set status CLOSED</a>
                                     <a th:if="${status == T(com.hescha.healthystore.model.OrderStatus).CREATED}"
                                        class="btn btn-danger"
                                        th:href="@{/order/{id}/delete(id=${order.id})}">Delete Order</a>

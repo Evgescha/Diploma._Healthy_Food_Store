@@ -44,6 +44,14 @@ public class OrderController {
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 
+    @GetMapping("/{id}/changeStatus")
+    public String changeStatus(@PathVariable("id") Long id, OrderStatus status) {
+        Order read = orderService.read(id);
+        read.setStatus(status);
+        orderService.update(read);
+        return REDIRECT_TO_ALL_ITEMS;
+    }
+
     @GetMapping(path = {"/edit", "/edit/{id}"})
     public String editPage(Model model, @PathVariable(name = "id", required = false) Long id) {
         if (id == null) {
