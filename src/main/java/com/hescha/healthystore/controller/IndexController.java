@@ -22,11 +22,6 @@ public class IndexController {
         return "404";
     }
 
-    @GetMapping("/contact")
-    public String getPagecontact() {
-        return "contact";
-    }
-
     @GetMapping("/feature")
     public String getPagefeature() {
         return "feature";
