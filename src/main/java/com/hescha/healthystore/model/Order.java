@@ -14,10 +14,17 @@ import java.util.List;
 @Table(name = "myOrder")
 @Data
 public class Order extends AbstractEntity{
-    @ManyToOne
-    private User owner;
     @OneToMany
     private List<OrderItem> orderitems = new ArrayList<>();
     private LocalDateTime created = LocalDateTime.now();
     private OrderStatus status = OrderStatus.CREATED;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                ", orderitems=" + orderitems +
+                ", created=" + created +
+                ", status=" + status +
+                '}';
+    }
 }

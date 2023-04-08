@@ -12,8 +12,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
 
-    List<User> findByUsernameContains(String username);
-
     List<User> findByPassword(String password);
 
     List<User> findByPasswordContains(String password);
@@ -40,5 +38,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByRolesContains(Role roles);
 
-    List<User> findByOrdersContains(Order orders);
+    User findByOrdersContains(Order orders);
 }

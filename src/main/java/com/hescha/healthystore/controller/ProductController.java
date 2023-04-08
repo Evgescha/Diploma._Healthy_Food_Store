@@ -25,7 +25,6 @@ public class ProductController {
 
     private final ProductService service;
     private final CategoryService categoryService;
-    private final CommentService commentService;
 
     @GetMapping
     public String readAll(Model model) {

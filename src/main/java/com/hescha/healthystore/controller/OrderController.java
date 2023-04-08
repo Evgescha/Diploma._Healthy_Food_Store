@@ -1,19 +1,18 @@
 package com.hescha.healthystore.controller;
 
-import com.hescha.healthystore.model.Order;
-import com.hescha.healthystore.service.OrderItemService;
-import com.hescha.healthystore.service.OrderService;
-import com.hescha.healthystore.service.UserService;
+import com.hescha.healthystore.model.*;
+import com.hescha.healthystore.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
+
+import java.util.Optional;
 
 
 @Controller
@@ -28,20 +27,22 @@ public class OrderController {
     public static final String THYMELEAF_TEMPLATE_EDIT_PAGE = THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE + "-edit";
     public static final String REDIRECT_TO_ALL_ITEMS = "redirect:" + CURRENT_ADDRESS;
 
-    private final OrderService service;
+    private final OrderService orderService;
 
     private final UserService userService;
+    private final ProductService productService;
     private final OrderItemService orderItemService;
+    private final SecurityService securityService;
 
     @GetMapping
     public String readAll(Model model) {
-        model.addAttribute("list", service.readAll());
+        model.addAttribute("list", orderService.readAll());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
     @GetMapping("/{id}")
     public String read(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("entity", service.read(id));
+        model.addAttribute("entity", orderService.read(id));
         return THYMELEAF_TEMPLATE_ONE_ITEM_PAGE;
     }
 
@@ -50,7 +51,7 @@ public class OrderController {
         if (id == null) {
             model.addAttribute("entity", new Order());
         } else {
-            model.addAttribute("entity", service.read(id));
+            model.addAttribute("entity", orderService.read(id));
         }
 
         model.addAttribute("user_list", userService.readAll());
@@ -63,7 +64,7 @@ public class OrderController {
     public String save(@ModelAttribute Order entity, RedirectAttributes ra) {
         if (entity.getId() == null) {
             try {
-                Order createdEntity = service.create(entity);
+                Order createdEntity = orderService.create(entity);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");
                 return REDIRECT_TO_ALL_ITEMS + "/" + createdEntity.getId();
             } catch (Exception e) {
@@ -73,7 +74,7 @@ public class OrderController {
             return REDIRECT_TO_ALL_ITEMS;
         } else {
             try {
-                service.update(entity.getId(), entity);
+                orderService.update(entity.getId(), entity);
                 ra.addFlashAttribute(MESSAGE, "Editing is successful");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -86,12 +87,63 @@ public class OrderController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
         try {
-            service.delete(id);
+            orderService.delete(id);
             ra.addFlashAttribute(MESSAGE, "Removing is successful");
         } catch (Exception e) {
             e.printStackTrace();
             ra.addFlashAttribute(MESSAGE, "Removing failed");
         }
         return REDIRECT_TO_ALL_ITEMS;
+    }
+
+
+    @GetMapping("/addProduct/{productId}")
+    public String addProductToOrder(@PathVariable Long productId, RedirectAttributes ra) {
+        User loggedInUser = securityService.getLoggedIn();
+        Product product = productService.read(productId);
+        Order order = getOrCreateOrder(loggedInUser);
+
+        createOrUpdateOrderitem(productId, product, order);
+
+        ra.addFlashAttribute("message", "Product added to cart");
+
+        return "redirect:/order";
+
+    }
+
+    private Order getOrCreateOrder(User loggedInUser) {
+        Order order;
+        Optional<Order> optionalOrder = loggedInUser.getOrders().stream()
+                .filter(order1 -> order1.getStatus() == OrderStatus.CREATED)
+                .findFirst();
+        if (optionalOrder.isEmpty()) {
+            order = new Order();
+            order.setStatus(OrderStatus.CREATED);
+            order = orderService.create(order);
+            loggedInUser.getOrders().add(order);
+            userService.update(loggedInUser);
+        } else {
+            order = optionalOrder.get();
+        }
+        return order;
+    }
+
+    private void createOrUpdateOrderitem(Long productId, Product product, Order order) {
+        Optional<OrderItem> existingOrderItem = order.getOrderitems().stream()
+                .filter(orderItem -> orderItem.getProduct().getId() == productId)
+                .findFirst();
+
+        if (existingOrderItem.isEmpty()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(product);
+            orderItem.setCount(1);
+            orderItem = orderItemService.create(orderItem);
+            order.getOrderitems().add(orderItem);
+            orderService.update(order);
+        } else {
+            OrderItem orderItem = existingOrderItem.get();
+            orderItem.setCount(orderItem.getCount() + 1);
+            orderItemService.update(orderItem);
+        }
     }
 }

@@ -11,7 +11,6 @@
 <table>
     <thead>
     <tr>
-        <th>owner</th>
         <th>orderitems</th>
         <th>created</th>
         <th>status</th>
@@ -20,16 +19,15 @@
     </tr>
     </thead>
     <tbody>
-        <tr th:each="entity : ${list}">
-                                    <td th:text=${entity.owner}></td>
-                                            <td>
-                    <ul>
-                        <li th:each="orderitems_item : ${entity.orderitems}" th:text="${orderitems_item}"></li>
-                    </ul>
-                </td>
-                                            <td th:text=${entity.created}></td>
-                                            <td th:text=${entity.status}></td>
-                
+    <tr th:each="entity : ${list}">
+        <td>
+            <ul>
+                <li th:each="orderitems_item : ${entity.orderitems}" th:text="${orderitems_item}"></li>
+            </ul>
+        </td>
+        <td th:text=${entity.created}></td>
+        <td th:text=${entity.status}></td>
+
         <td>
             <a th:href="@{/order/{id}(id=${entity.id})}">See detail</a>
             <a th:href="@{/order/edit/{id}(id=${entity.id})}">Edit</a>

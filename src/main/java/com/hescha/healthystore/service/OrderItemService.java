@@ -16,19 +16,6 @@ public class OrderItemService extends CrudService<OrderItem> {
         this.repository = repository;
     }
 
-    public OrderItem findByOrder(Order order) {
-        return repository.findByOrder(order);
-    }
-
-    public OrderItem findByProduct(Product product) {
-        return repository.findByProduct(product);
-    }
-
-    public OrderItem findByCount(Integer count) {
-        return repository.findByCount(count);
-    }
-
-
     public OrderItem update(Long id, OrderItem entity) {
         OrderItem read = read(id);
         if (read == null) {
@@ -40,7 +27,6 @@ public class OrderItemService extends CrudService<OrderItem> {
     }
 
     private void updateFields(OrderItem entity, OrderItem read) {
-        read.setOrder(entity.getOrder());
         read.setProduct(entity.getProduct());
         read.setCount(entity.getCount());
     }

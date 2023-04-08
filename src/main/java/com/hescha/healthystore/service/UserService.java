@@ -117,7 +117,7 @@ public class UserService extends CrudService<User> implements org.springframewor
         return repository.findByRolesContains(roles);
     }
 
-    public List<User> findByOrdersContains(Order orders) {
+    public User findByOrdersContains(Order orders) {
         return repository.findByOrdersContains(orders);
     }
 
