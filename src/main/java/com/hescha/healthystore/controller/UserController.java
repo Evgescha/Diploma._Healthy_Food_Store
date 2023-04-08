@@ -1,8 +1,10 @@
 package com.hescha.healthystore.controller;
 
+import com.hescha.healthystore.model.OrderStatus;
 import com.hescha.healthystore.model.User;
 import com.hescha.healthystore.service.OrderService;
 import com.hescha.healthystore.service.RoleService;
+import com.hescha.healthystore.service.SecurityService;
 import com.hescha.healthystore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,12 +34,18 @@ public class UserController {
     private final UserService service;
     private final RoleService roleService;
     private final OrderService orderService;
+    private final SecurityService securityService;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public String readAll(Model model) {
         model.addAttribute("list", service.readAll());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
+    }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "redirect:/user/" + securityService.getLoggedIn().getId();
     }
 
     @GetMapping("/{id}")

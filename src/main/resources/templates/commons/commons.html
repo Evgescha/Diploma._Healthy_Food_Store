@@ -81,7 +81,7 @@
                     <a href="/logout" class="nav-item nav-link" th:if="${#request.userPrincipal != null}">Log out</a>
                 </div>
                 <div class="d-none d-lg-flex ms-2" th:if="${#request.userPrincipal != null}">
-                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="/profile">
+                    <a class="btn-sm-square bg-white rounded-circle ms-3" href="/user/profile">
                         <small class="fa fa-user text-body"></small>
                     </a>
                     <a class="btn-sm-square bg-white rounded-circle ms-3" href="/bucket">
