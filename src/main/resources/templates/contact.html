@@ -12,7 +12,7 @@
     <div th:replace="~{/commons/page-header :: page-header(headerText='Contact')}"></div>
 
     <!-- Add this code after the Contact End comment and before the footer -->
-    <div class="container-xxl py-6"  th:if="${#request.isUserInRole('ADMIN') or (user.isManagerOrAdmin() == true)}" >
+    <div class="container-xxl py-6"  th:if="${#request.isUserInRole('ADMIN') or (#request.userPrincipal != null and user.isManagerOrAdmin() == true)}" >
         <div class="container">
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
@@ -98,6 +98,7 @@
             <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
                 <h1 class="display-5 mb-3">Contact Us</h1>
                 <p>Use form below and let us know your experience better.</p>
+                <h3 th:if="${message != null}" th:text="${message}" class="text-center"></h3>
             </div>
             <div class="row g-5 justify-content-center">
                 <div class="col-lg-5 col-md-12 wow fadeInUp" data-wow-delay="0.1s">

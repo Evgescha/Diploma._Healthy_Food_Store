@@ -56,7 +56,8 @@
                             <label for="address">Address</label>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12"
+                         th:classappend="${#request.isUserInRole('ADMIN')} ? '':'d-none'">
                         <div class="form-floating">
                             <select th:field="*{roles}" class="form-select" id="roles" multiple style="min-height: 150px">
                                 <option th:each="role : ${allRoles}" th:value="${role.id}" th:text="${role.role}"></option>
