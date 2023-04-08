@@ -3,6 +3,8 @@ package com.hescha.healthystore.controller;
 import com.hescha.healthystore.model.Contact;
 import com.hescha.healthystore.model.ContactStatus;
 import com.hescha.healthystore.service.ContactService;
+import com.hescha.healthystore.service.SecurityService;
+import com.hescha.healthystore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +26,13 @@ public class ContactController {
     public static final String REDIRECT_TO_ALL_ITEMS = "redirect:" + CURRENT_ADDRESS;
 
     private final ContactService service;
+    private final SecurityService securityService;
 
 
     @GetMapping
     public String readAll(Model model) {
         model.addAttribute("list", service.readAll());
+        model.addAttribute("user", securityService.getLoggedIn());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 

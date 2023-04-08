@@ -18,9 +18,7 @@
             <h3 th:if="${message != null}" th:text="${message}" class="text-center"></h3>
         </div>
 
-        <div class="row">
-<!--             th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('MANAGER')}"-->
-
+        <div class="row" th:if="${#request.isUserInRole('ADMIN') or (user.isManagerOrAdmin() == true)}">
             <div class="col-12">
                 <ul class="nav nav-pills mb-3" id="ordersTab" role="tablist">
                     <li class="nav-item" role="presentation">

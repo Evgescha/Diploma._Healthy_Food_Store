@@ -27,4 +27,16 @@ public class User extends AbstractEntity {
     public String toString() {
         return username;
     }
+
+    public boolean isManager(){
+        return roles.stream().anyMatch(role -> role.getRole().contains("MANAGER"));
+    }
+
+    public boolean isAdmin(){
+        return roles.stream().anyMatch(role -> role.getRole().contains("ADMIN"));
+    }
+
+    public boolean isManagerOrAdmin(){
+        return isAdmin() || isManager();
+    }
 }

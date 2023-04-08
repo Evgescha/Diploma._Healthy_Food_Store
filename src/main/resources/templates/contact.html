@@ -12,7 +12,7 @@
     <div th:replace="~{/commons/page-header :: page-header(headerText='Contact')}"></div>
 
     <!-- Add this code after the Contact End comment and before the footer -->
-    <div class="container-xxl py-6"  th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('MANAGER') }" >
+    <div class="container-xxl py-6"  th:if="${#request.isUserInRole('ADMIN') or (user.isManagerOrAdmin() == true)}" >
         <div class="container">
             <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
