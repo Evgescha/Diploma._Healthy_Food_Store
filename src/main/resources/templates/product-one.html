@@ -23,6 +23,16 @@
                 <p th:text="${entity.description}">Product Description</p>
                 <h4 th:text="'Price: ' + ${entity.price}">Price</h4>
                 <h5 th:text="'Category: ' + ${entity.category.name}">Category</h5>
+
+                <form class="w-50 text-center py-2"
+                      th:if="${#request.userPrincipal != null}"
+                      th:action="'/order/addProduct/'+${entity.id}"
+                      method="get">
+                    <input type="number" min="1" name="count" value="1">
+                    <button class="text-body" type="submit">
+                        <i class="fa fa-shopping-bag text-primary me-2"></i>Add to cart
+                    </button>
+                </form>
             </div>
             <a class="btn btn-primary"
                th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('MANAGER') }"

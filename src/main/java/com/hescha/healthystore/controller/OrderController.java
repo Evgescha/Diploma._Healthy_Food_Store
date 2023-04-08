@@ -3,12 +3,8 @@ package com.hescha.healthystore.controller;
 import com.hescha.healthystore.model.*;
 import com.hescha.healthystore.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
 
@@ -129,11 +125,13 @@ public class OrderController {
 
 
     @GetMapping("/addProduct/{productId}")
-    public String addProductToOrder(@PathVariable Long productId, RedirectAttributes ra) {
+    public String addProductToOrder(@PathVariable Long productId,
+                                    @RequestParam(defaultValue = "1", required = false) Integer count,
+                                    RedirectAttributes ra) {
         User loggedInUser = securityService.getLoggedIn();
         Product product = productService.read(productId);
         Order order = getOrCreateOrder(loggedInUser);
-        createOrUpdateOrderitem(productId, product, order);
+        createOrUpdateOrderitem(productId, product, order, count);
         ra.addFlashAttribute("message", "Product added to cart");
         return "redirect:/order";
     }
@@ -155,7 +153,7 @@ public class OrderController {
         return order;
     }
 
-    private void createOrUpdateOrderitem(Long productId, Product product, Order order) {
+    private void createOrUpdateOrderitem(Long productId, Product product, Order order, Integer count) {
         Optional<OrderItem> existingOrderItem = order.getOrderitems().stream()
                 .filter(orderItem -> orderItem.getProduct().getId() == productId)
                 .findFirst();
@@ -163,13 +161,13 @@ public class OrderController {
         if (existingOrderItem.isEmpty()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(product);
-            orderItem.setCount(1);
+            orderItem.setCount(count);
             orderItem = orderItemService.create(orderItem);
             order.getOrderitems().add(orderItem);
             orderService.update(order);
         } else {
             OrderItem orderItem = existingOrderItem.get();
-            orderItem.setCount(orderItem.getCount() + 1);
+            orderItem.setCount(orderItem.getCount() + count);
             orderItemService.update(orderItem);
         }
     }
