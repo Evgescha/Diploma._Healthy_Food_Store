@@ -24,6 +24,9 @@
                 <h4 th:text="'Price: ' + ${entity.price}">Price</h4>
                 <h5 th:text="'Category: ' + ${entity.category.name}">Category</h5>
             </div>
+            <a class="btn btn-primary"
+               th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('MANAGER') }"
+               th:href="@{/product/edit/{id}(id=${entity.id})}">Edit Product</a>
         </div>
     </div>
 </div>

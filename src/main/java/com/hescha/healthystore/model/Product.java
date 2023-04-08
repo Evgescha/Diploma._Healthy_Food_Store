@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class Product extends AbstractEntity{
     private String name;
-    @Column(length = 2500)
+    @Column(length = 3500)
     private String description;
     private String image;
     private Double price;
