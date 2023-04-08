@@ -14,6 +14,9 @@ public class SecurityService {
 
     public User getLoggedIn() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth == null || auth.getName() == null){
+            return null;
+        }
         return userService.findByUsername(auth.getName());
     }
 }

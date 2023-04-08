@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.stereotype.Controller;
 
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -37,6 +38,7 @@ public class OrderController {
     @GetMapping
     public String readAll(Model model) {
         model.addAttribute("list", orderService.readAll());
+        model.addAttribute("user", securityService.getLoggedIn());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 
@@ -96,19 +98,44 @@ public class OrderController {
         return REDIRECT_TO_ALL_ITEMS;
     }
 
+    @GetMapping("/{id}/deleteOrderItem/{itemId}")
+    public String deleteOrderItem(@PathVariable Long id, @PathVariable Long itemId, RedirectAttributes ra) {
+        try {
+            Order order = orderService.read(id);
+            Optional<OrderItem> first = order.getOrderitems()
+                    .stream()
+                    .filter(orderItem -> Objects.equals(orderItem.getId(), itemId))
+                    .findFirst();
+            if (first.isPresent()) {
+                OrderItem orderItem = first.get();
+                if (orderItem.getCount() <= 1) {
+                    order.getOrderitems().remove(orderItem);
+                    orderService.update(order);
+                    orderItem.setProduct(null);
+                    orderItemService.update(orderItem);
+                    orderItemService.delete(orderItem);
+                } else {
+                    orderItem.setCount(orderItem.getCount() - 1);
+                    orderItemService.update(orderItem);
+                }
+            }
+            ra.addFlashAttribute(MESSAGE, "Removing is successful");
+        } catch (Exception e) {
+            e.printStackTrace();
+            ra.addFlashAttribute(MESSAGE, "Removing failed");
+        }
+        return REDIRECT_TO_ALL_ITEMS;
+    }
+
 
     @GetMapping("/addProduct/{productId}")
     public String addProductToOrder(@PathVariable Long productId, RedirectAttributes ra) {
         User loggedInUser = securityService.getLoggedIn();
         Product product = productService.read(productId);
         Order order = getOrCreateOrder(loggedInUser);
-
         createOrUpdateOrderitem(productId, product, order);
-
         ra.addFlashAttribute("message", "Product added to cart");
-
         return "redirect:/order";
-
     }
 
     private Order getOrCreateOrder(User loggedInUser) {
