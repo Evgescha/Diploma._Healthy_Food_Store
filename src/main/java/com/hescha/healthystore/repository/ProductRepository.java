@@ -12,7 +12,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByName(String name);
 
-    List<Product> findByNameContains(String name);
+    List<Product> findByNameContainsAndDeleted(String name, Boolean deleted);
+    List<Product> findByDeleted(Boolean deleted);
 
     List<Product> findByDescription(String description);
 

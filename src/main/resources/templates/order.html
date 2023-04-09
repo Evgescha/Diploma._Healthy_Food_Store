@@ -20,7 +20,7 @@
 
 
 
-        <div class="row" th:if="${user.isManagerOrAdmin() != true}">
+        <div class="row" th:if="${#user != null and user.isManagerOrAdmin() != true}">
             <h2 class="display-5 mb-3">My Order</h2>
                 <div class="tab-content" >
                     <div class="tab-pane fade active show">

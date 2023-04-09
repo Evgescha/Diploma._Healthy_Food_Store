@@ -55,7 +55,6 @@ public class CategoryController {
             try {
                 Category createdEntity = service.create(entity);
                 ra.addFlashAttribute(MESSAGE, "Creating is successful");
-                return REDIRECT_TO_ALL_ITEMS + "/" + createdEntity.getId();
             } catch (Exception e) {
                 ra.addFlashAttribute(MESSAGE, "Creating failed");
                 e.printStackTrace();

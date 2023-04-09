@@ -37,6 +37,9 @@
             <a class="btn btn-primary"
                th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('MANAGER') }"
                th:href="@{/product/edit/{id}(id=${entity.id})}">Edit Product</a>
+            <a class="btn btn-danger"
+               th:if="${#request.isUserInRole('ADMIN') or #request.isUserInRole('MANAGER') }"
+               th:href="@{/product/{id}/delete(id=${entity.id})}">Delete Product</a>
         </div>
     </div>
 </div>

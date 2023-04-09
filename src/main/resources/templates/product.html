@@ -24,6 +24,11 @@
 
             <div class="container">
                 <div class="row">
+                    <div th:if="${#request.isUserInRole('ADMIN') or (#request.userPrincipal != null and user.isManagerOrAdmin() == true)}"
+                         class="col-12 text-center py-4">
+                        <a class="btn btn-primary"
+                           href="/product/edit">Add Product</a>
+                    </div>
                     <div class="col-md-12">
                         <form action="/product/search" method="get" class="my-4">
                             <div class="input-group">

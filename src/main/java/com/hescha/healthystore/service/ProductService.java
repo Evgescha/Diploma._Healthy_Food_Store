@@ -26,7 +26,7 @@ public class ProductService extends CrudService<Product> {
     }
 
     public List<Product> findByNameContains(String name) {
-        return repository.findByNameContains(name);
+        return repository.findByNameContainsAndDeleted(name, false);
     }
 
     public List<Product> findByDescription(String description) {
@@ -92,5 +92,9 @@ public class ProductService extends CrudService<Product> {
         }
         entity.getComments().forEach(commentService::delete);
         repository.delete(entity);
+    }
+
+    public List<Product> readAllNotDeleted() {
+        return repository.findByDeleted(false);
     }
 }

@@ -4,6 +4,7 @@ import com.hescha.healthystore.model.Product;
 import com.hescha.healthystore.service.CategoryService;
 import com.hescha.healthystore.service.CommentService;
 import com.hescha.healthystore.service.ProductService;
+import com.hescha.healthystore.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -25,10 +26,12 @@ public class ProductController {
 
     private final ProductService service;
     private final CategoryService categoryService;
+    private final SecurityService securityService;
 
     @GetMapping
     public String readAll(Model model) {
-        model.addAttribute("list", service.readAll());
+        model.addAttribute("list", service.readAllNotDeleted());
+        model.addAttribute("user", securityService.getLoggedIn());
         return THYMELEAF_TEMPLATE_ALL_ITEMS_PAGE;
     }
 

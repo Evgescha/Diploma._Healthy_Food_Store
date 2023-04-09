@@ -21,5 +21,5 @@ public class Product extends AbstractEntity{
     private Category category;
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
-    private Boolean deleted;
+    private Boolean deleted = false;
 }
