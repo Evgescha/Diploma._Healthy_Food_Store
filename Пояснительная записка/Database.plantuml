@@ -1,0 +1,106 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class CATEGORY {
+   NAME: character varying(255)
+   ID: bigint
+}
+class CATEGORY_PRODUCTS {
+   CATEGORY_ID: bigint
+   PRODUCTS_ID: bigint
+}
+class COMMENT {
+   MESSAGE: character varying(255)
+   OWNER_ID: bigint
+   PRODUCT_ID: bigint
+   ID: bigint
+}
+class MY_ORDER {
+   CREATED: timestamp
+   STATUS: integer
+   UPDATED: timestamp
+   OWNER_ID: bigint
+   ID: bigint
+}
+class MY_ORDER_ORDERITEMS {
+   ORDER_ID: bigint
+   ORDERITEMS_ID: bigint
+}
+class MY_ORDER_ORDER_ITEMS {
+   ORDER_ID: bigint
+   ORDER_ITEMS_ID: bigint
+}
+class MY_USER {
+   ADDRESS: character varying(255)
+   EMAIL: character varying(255)
+   FIRSTNAME: character varying(255)
+   IMAGE: character varying(255)
+   LASTNAME: character varying(255)
+   PASSWORD: character varying(255)
+   USERNAME: character varying(255)
+   ID: bigint
+}
+class MY_USER_ORDERS {
+   USER_ID: bigint
+   ORDERS_ID: bigint
+}
+class MY_USER_ROLES {
+   USER_ID: bigint
+   ROLES_ID: bigint
+}
+class ORDER_ITEM {
+   COUNT: integer
+   ORDER_ID: bigint
+   PRODUCT_ID: bigint
+   ID: bigint
+}
+class ORDER_ORDERITEMS {
+   ORDER_ID: bigint
+   ORDERITEMS_ID: bigint
+}
+class PRODUCT {
+   DESCRIPTION: character varying(255)
+   IMAGE: character varying(255)
+   NAME: character varying(255)
+   PRICE: double precision
+   CATEGORY_ID: bigint
+   ID: bigint
+}
+class PRODUCT_COMMENTS {
+   PRODUCT_ID: bigint
+   COMMENTS_ID: bigint
+}
+class ROLE {
+   ROLE: character varying(255)
+   ID: bigint
+}
+class ROLE_USERS {
+   ROLE_ID: bigint
+   USERS_ID: bigint
+}
+
+CATEGORY_PRODUCTS     -[#595959,plain]-^  CATEGORY             : "CATEGORY_ID:ID"
+CATEGORY_PRODUCTS     -[#595959,plain]-^  PRODUCT              : "PRODUCTS_ID:ID"
+COMMENT               -[#595959,plain]-^  MY_USER              : "OWNER_ID:ID"
+COMMENT               -[#595959,plain]-^  PRODUCT              : "PRODUCT_ID:ID"
+MY_ORDER              -[#595959,plain]-^  MY_USER              : "OWNER_ID:ID"
+MY_ORDER_ORDERITEMS   -[#595959,plain]-^  MY_ORDER             : "ORDER_ID:ID"
+MY_ORDER_ORDERITEMS   -[#595959,plain]-^  ORDER_ITEM           : "ORDERITEMS_ID:ID"
+MY_ORDER_ORDER_ITEMS  -[#595959,plain]-^  MY_ORDER             : "ORDER_ID:ID"
+MY_ORDER_ORDER_ITEMS  -[#595959,plain]-^  ORDER_ITEM           : "ORDER_ITEMS_ID:ID"
+MY_USER_ORDERS        -[#595959,plain]-^  MY_ORDER             : "ORDERS_ID:ID"
+MY_USER_ORDERS        -[#595959,plain]-^  MY_USER              : "USER_ID:ID"
+MY_USER_ROLES         -[#595959,plain]-^  MY_USER              : "USER_ID:ID"
+MY_USER_ROLES         -[#595959,plain]-^  ROLE                 : "ROLES_ID:ID"
+ORDER_ITEM            -[#595959,plain]-^  MY_ORDER             : "ORDER_ID:ID"
+ORDER_ITEM            -[#595959,plain]-^  PRODUCT              : "PRODUCT_ID:ID"
+ORDER_ORDERITEMS      -[#595959,plain]-^  ORDER_ITEM           : "ORDERITEMS_ID:ID"
+PRODUCT               -[#595959,plain]-^  CATEGORY             : "CATEGORY_ID:ID"
+PRODUCT_COMMENTS      -[#595959,plain]-^  COMMENT              : "COMMENTS_ID:ID"
+PRODUCT_COMMENTS      -[#595959,plain]-^  PRODUCT              : "PRODUCT_ID:ID"
+ROLE_USERS            -[#595959,plain]-^  MY_USER              : "USERS_ID:ID"
+ROLE_USERS            -[#595959,plain]-^  ROLE                 : "ROLE_ID:ID"
+@enduml
